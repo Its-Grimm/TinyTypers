@@ -1,6 +1,153 @@
-body{
-   background: #323437;
-   color: slateblue;
-   font-family:'Trebuchet MS';
+body {
+   left: 0px;
+   background: #111111;
+   color: #6a5acd;
+   font-family: "Roboto", Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* HEADER AND TITLE*/
+
+header {
+   position: relative;
+   width: 100%;
+   height: 100px;
+   padding: 10px;
+   margin-bottom: 50px;
+}
+
+.leftMenus {
+   
+   left: 100px;
    font-size: 25px;
+}
+
+.leftMenus ul {
+   position: absolute;
+   list-style: none;
+   /* background-color: white; */
+   left: 67px;
+}
+
+.leftMenus li {
+   margin: 10px;
+   display: inline-block;
+}
+
+.title {
+   position: absolute;
+   font-size: 50px;   
+   left: 50%;
+   width: 50px;
+   transform: translateX(-50%);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+}
+
+/* MAIN BODY */
+
+.aboveBoxSettings {
+   width: 850px;
+   margin: auto;
+}
+
+nav {
+   padding-top: 10px;
+   padding-bottom: 15px;
+}
+
+nav ul {
+   list-style: none;
+   padding: 0px;
+   margin: 0px;
+}
+
+nav li {
+   margin-left: 85px;
+   display: inline-block;
+}
+
+.main {
+   width: 810px;
+   height: 150px;
+   font-size: 30px;
+   text-align: left;
+   padding: 20px;
+   border-radius: 10px;
+   background-color: #191919;
+   color: white;
+   margin: auto;
+}
+
+.underBoxSettings {
+   width: 850px;
+   margin: auto;
+}
+
+.underBoxSettings ol {
+   list-style: none;
+   margin-top: 25px;
+   margin-left: -40px;
+}
+
+.underBoxSettings li {
+   height: 75px;
+   font-size: 30px;
+   display: inline-block;
+   vertical-align: top;
+}
+
+.typeBox{
+   margin-left: 10px;
+   margin-right: 10px;
+}
+
+.typeBox input {
+   padding: 0 10px;
+   width: 500px;
+   height: 75px;
+   border-radius: 10px;
+   text-align: left;
+   color: white;
+   font-size: 30px;
+   background-color: #191919;
+   box-sizing: border-box;
+}
+
+.wpmCounter, .timer{
+   width: 150px;
+   border-radius: 10px;
+   line-height: 75px;
+   text-align: center;
+   color: white;
+   background-color: #191919;
+   box-sizing: border-box;
+}
+
+
+/* FOOTER */
+footer {
+   position: absolute;
+   left: 0px;
+   right: 0px;
+   bottom: 0px;
+   width: 100%;
+   background-color: #191919;
+   text-align: center;
+}
+
+footer ul {
+   padding: 0;
+   margin: 0;
+   list-style: none;
+   display: flex;
+   justify-content: center;
+}
+
+footer li {
+   margin: 5px 75px;
+   height: 10px;
+   line-height: 10px;
+   display: inline-block;
 }
