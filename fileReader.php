@@ -2,11 +2,8 @@
 $fileExists = 'englishWords.txt';
 
 if (file_exists($fileExists)) {
-   // $wordFile = fopen('englishWords.txt', 'r');
-   $allWords = file('englishWords.txt');
+   $allWords = file($fileExists);
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -21,13 +18,13 @@ if (file_exists($fileExists)) {
    <label>
       <?php $message ?>
    </label>
-
    <?php
-   for ($i = 0; $i < count($allWords); $i++) {
-      if (strlen($allWords[$i]) - 1 == 5) {
-         echo $allWords[$i] . "\n";
-      }
+   for ($i = 0; $i < 20; $i++) {
+      $randomIndex = rand(0, count($allWords) - 1);
+      $randomWords[$i] = $allWords[$randomIndex];
+      echo "<h3> $randomWords[$i] </h3> <br>";
    }
+
    ?>
 </body>
 
