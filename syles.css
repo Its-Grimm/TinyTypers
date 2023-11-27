@@ -125,6 +125,21 @@ nav li {
    box-sizing: border-box;
 }
 
+#input_area { 
+   height: 80px; 
+   width: 40%;  
+   margin: 15px; 
+   padding: 20px; 
+} 
+
+.incorrect_char, .extra_char { 
+   color: red; 
+} 
+
+.correct_char { 
+   color: darkgreen; 
+}
+
 
 /* FOOTER */
 footer {
