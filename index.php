@@ -55,10 +55,10 @@ if (file_exists($fileExists)) {
 
       <div class="underBoxSettings">
          <ul>
-            <li class="wpmCounter" id="wpm"> wpm </li>
+            <li class="wpmCounter" id="wpm"> 0 wpm </li>
             <li class="typeBox"> <input type="text" class="typeBox" id="input_area" placeholder="start typing here..."
                   onfocus='startGame()' oninput='processText()'> </li>
-            <li class="timer" id="time"> 30s </li>
+            <li class="timer" id="time"> </li>
          </ul>
       </div>
 
@@ -93,12 +93,13 @@ if (file_exists($fileExists)) {
          let words = document.getElementById('quote');
 
          let timer = null;
-         let max_TIME = 30;
+         let max_TIME = 60;
          let time = max_TIME;
          let charTyped = 0;
          let total_errors = 0;
          let curr_words = "";
-
+         timer_text.innerText = max_TIME + "s";
+         
          //Starts game
          function startGame() {
             reset();
@@ -117,7 +118,7 @@ if (file_exists($fileExists)) {
             accuracy_text.innerText = 100;
          }
 
-         //Counts down timer, and finishes gaem if timer hits 0
+         //Counts down timer, and finishes game if timer hits 0
          function updateTimer() {
             if (time > 0) {
                time--;
