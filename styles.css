@@ -7,6 +7,12 @@ body {
 
 /* HEADER AND TITLE*/
 
+#wrapper {
+   margin-left:auto;
+   margin-right:auto;
+   width:960px;
+}
+
 header {
    position: relative;
    width: 100%;
@@ -27,6 +33,22 @@ header {
 }
 
 .leftMenus li {
+   margin: 10px;
+   display: inline-block;
+}
+
+.rightMenus {
+   right: 50%;
+   font-size: 25px;
+}
+
+.rightMenus ul {
+   position: fixed;
+   list-style: none;
+   right: 67px;
+}
+
+.rightMenus li {
    margin: 10px;
    display: inline-block;
 }
