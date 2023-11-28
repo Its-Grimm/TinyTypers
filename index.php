@@ -61,12 +61,13 @@ if (file_exists($fileExists)) {
             <li class="timer" id="time"> </li>
          </ul>
       </div>
+      <div class="hidden">
+      	<label> Errors </label>
+      	<label id='errors'>0</label>
 
-      <label> Errors </label>
-      <label id='errors'>0</label>
-
-      <label> % Accuracy </label>
-      <label id='accuracy'>100</label>
+      	<label> % Accuracy </label>
+      	<label id='accuracy'>100</label>
+      </div>
       <button id='restart_btn' onclick='reset()'>Restart</button>
 
       <footer>
@@ -91,6 +92,7 @@ if (file_exists($fileExists)) {
          let timer_text = document.getElementById('time');
          let input_area = document.getElementById('input_area');
          let words = document.getElementById('quote');
+         let accuracy_div = document.querySelector('.hidden');
 
          let timer = null;
          let max_TIME = 60;
@@ -134,6 +136,7 @@ if (file_exists($fileExists)) {
             clearInterval(timer);
             input_area.disabled = true;
             words.innerText = 'Click on restart to start new game.';
+            accuracy_div.classList.remove("hiiden");
 
             let wpm = ((charTyped / 5) / max_TIME) * 60;
             wpm_text.innerText = Math.round(wpm) + "wpm";
