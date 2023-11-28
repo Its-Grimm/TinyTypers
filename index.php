@@ -44,42 +44,41 @@ if (file_exists($fileExists)) {
 
       </header>
 
-      <!-- MAIN AREA -->
-
-      <main>      
-         <div class="aboveBoxSettings">
-            <nav>
-               <ul>
-                  <li> Setting 1 </li>
-                  <li> Setting 2 </li>
-                  <li> Setting 3 </li>
-                  <li> Setting 4 </li>
-                  <li> Setting 5 </li>
-               </ul>
-            </nav>
-         </div>
-         
+      <div class="aboveBoxSettings">
+         <nav>
+            <ul>
+               <li> Setting 1 </li>
+               <li> Setting 2 </li>
+               <li> Setting 3 </li>
+               <li> Setting 4 </li>
+               <li> Setting 5 </li>
+            </ul>
+         </nav>
+      </div>
+      <div class="game">
          <div class="mainText">
             <label for="mainText" id="quote"> Start typing to create game </label>
          </div>
 
-      <div class="underBoxSettings">
-         <ul>
-            <li class="wpmCounter" id="wpm"> 0 wpm </li>
-            <li class="typeBox"> <input type="text" class="typeBox" id="input_area" placeholder="start typing here..."
-                  onfocus='startGame()' oninput='processText()'> </li>
-            <li class="timer" id="time"> </li>
-         </ul>
-      </div>
-      <div class="hidden">
-      	<label> Errors </label>
-      	<label id='errors'>0</label>
+         <div class="underBoxSettings">
+            <ul>
+               <li class="wpmCounter" id="wpm"> 0 wpm </li>
+               <li class="typeBox"> <input type="text" class="typeBox" id="input_area" placeholder="start typing here..."
+                     onfocus='startGame()' oninput='processText()'> </li>
+               <li class="timer" id="time"> </li>
+            </ul>
+         </div>
+         </div>
+         <div class="hidden">
+            <label> Errors </label>
+            <label id='errors'>0</label>
 
-      	<label> % Accuracy </label>
-      	<label id='accuracy'>100</label>
+            <label> % Accuracy </label>
+            <label id='accuracy'>100</label>
+         </div>
+         <button id='restart_btn' onclick='reset()'>Restart</button>
       </div>
-      <button id='restart_btn' onclick='reset()'>Restart</button>
-
+         
       <footer>
          <nav>
             <ul>
@@ -104,6 +103,7 @@ if (file_exists($fileExists)) {
          let input_area = document.getElementById('input_area');
          let words = document.getElementById('quote');
          let accuracy_div = document.querySelector('.hidden');
+         let game = document.querySelector('.game');
 
          let timer = null;
          let max_TIME = 60;
@@ -129,6 +129,8 @@ if (file_exists($fileExists)) {
             timer_text.innerText = max_TIME + "s";
             input_area.value = "";
             accuracy_text.innerText = 100;
+            accuracy_div.classList.add('hidden');
+            game.classList.remove('hidden');
          }
 
          //Counts down timer, and finishes game if timer hits 0
@@ -147,7 +149,8 @@ if (file_exists($fileExists)) {
             clearInterval(timer);
             input_area.disabled = true;
             words.innerText = 'Click on restart to start new game.';
-            accuracy_div.classList.remove("hiiden");
+            accuracy_div.classList.remove("hidden");
+            game.classList.add('hidden');
 
             let wpm = ((charTyped / 5) / max_TIME) * 60;
             wpm_text.innerText = Math.round(wpm) + "wpm";
