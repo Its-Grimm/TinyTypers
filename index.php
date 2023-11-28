@@ -48,7 +48,7 @@ if (file_exists($fileExists)) {
             </ul>
          </nav>
       </div>
-
+     <div class="game">
       <div class="main">
          <label for="main" id="quote"> Start typing to create game </label>
       </div>
@@ -60,6 +60,7 @@ if (file_exists($fileExists)) {
                   onfocus='startGame()' oninput='processText()'> </li>
             <li class="timer" id="time"> </li>
          </ul>
+      </div>
       </div>
       <div class="hidden">
       	<label> Errors </label>
@@ -93,6 +94,7 @@ if (file_exists($fileExists)) {
          let input_area = document.getElementById('input_area');
          let words = document.getElementById('quote');
          let accuracy_div = document.querySelector('.hidden');
+         let game = document.querySelector('.game');
 
          let timer = null;
          let max_TIME = 60;
@@ -118,6 +120,8 @@ if (file_exists($fileExists)) {
             timer_text.innerText = max_TIME + "s";
             input_area.value = "";
             accuracy_text.innerText = 100;
+            accuracy_div.classList.add('hidden');
+            game.classList.remove('hidden');
          }
 
          //Counts down timer, and finishes game if timer hits 0
@@ -136,7 +140,8 @@ if (file_exists($fileExists)) {
             clearInterval(timer);
             input_area.disabled = true;
             words.innerText = 'Click on restart to start new game.';
-            accuracy_div.classList.remove("hiiden");
+            accuracy_div.classList.remove("hidden");
+            game.classList.add('hidden');
 
             let wpm = ((charTyped / 5) / max_TIME) * 60;
             wpm_text.innerText = Math.round(wpm) + "wpm";
