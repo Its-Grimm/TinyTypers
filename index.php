@@ -44,42 +44,49 @@ if (file_exists($fileExists)) {
 
       </header>
 
-   <div class="game">
-      <div class="aboveBoxSettings">
-         <nav>
+      <div class="game">
+         <div class="aboveBoxSettings">
+            <nav>
+               <ul>
+                  <li> Setting 1 </li>
+                  <li> Setting 2 </li>
+                  <li> Setting 3 </li>
+                  <li> Setting 4 </li>
+                  <li> Setting 5 </li>
+               </ul>
+            </nav>
+         </div>
+
+         <div class="mainText">
+            <label for="mainText" id="quote"> Start typing to create game </label>
+         </div>
+      </div>
+
+
+      <div class="hidden">
+         <div class="graph">
+            <canvas id="wpmGraph"> </canvas>
+         </div>
+
+         <div class="belowBox">
             <ul>
-               <li> Setting 1 </li>
-               <li> Setting 2 </li>
-               <li> Setting 3 </li>
-               <li> Setting 4 </li>
-               <li> Setting 5 </li>
+               <li class="errors" id="errors"> 0 </li>
+               <li class="accuracy" id="accuracy"> 100 </li>
             </ul>
-         </nav>
+         </div>
       </div>
 
-      <div class="mainText">
-         <label for="mainText" id="quote"> Start typing to create game </label>
+      <div class="underBoxSettings">
+         <ul>
+            <li class="wpmCounter" id="wpm"> 0 wpm </li>
+            <li class="typeBox"> <input type="text" class="typeBox" id="input_area" placeholder="start typing here..."
+                  onfocus='startGame()' oninput='processText()'> </li>
+            <li class="timer" id="time"> </li>
+         </ul>
       </div>
-   </div>
 
-   <div class="underBoxSettings">
-      <ul>
-         <li class="wpmCounter" id="wpm"> 0 wpm </li>
-         <li class="typeBox"> <input type="text" class="typeBox" id="input_area" placeholder="start typing here..."
-               onfocus='startGame()' oninput='processText()'> </li>
-         <li class="timer" id="time"> </li>
-      </ul>
-   </div>
+      <button id='restart_btn' onclick='reset()'>Restart</button>
 
-   <div class="hidden">
-      <label> Errors </label>
-      <label id='errors'>0</label>
-
-      <label> % Accuracy </label>
-      <label id='accuracy'>100</label>
-   </div>
-   <button id='restart_btn' onclick='reset()'>Restart</button>
-         
       <footer>
          <nav>
             <ul>
@@ -92,7 +99,9 @@ if (file_exists($fileExists)) {
          </nav>
       </footer>
 
-      <!-- JS SCRIPT -->
+      <!-- JS SCRIPTS -->
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
       <script>
          // Grabs all of the elements from the html
@@ -106,7 +115,7 @@ if (file_exists($fileExists)) {
          let game = document.querySelector('.game');
 
          // MAX TIME
-         let max_TIME = 10;
+         let max_TIME = 30;
          let timer = null;
          let time = max_TIME;
          let time_elapsed = 0;
@@ -114,8 +123,10 @@ if (file_exists($fileExists)) {
          let charTyped = 0;
          let total_errors = 0;
          let curr_words = "";
+         let wpmOverInterval = [];
+         let i = 0;
          timer_text.innerText = max_TIME + "s";
-         
+
          //Starts game
          function startGame() {
             reset();
@@ -138,6 +149,8 @@ if (file_exists($fileExists)) {
             accuracy_text.innerText = 100;
             accuracy_div.classList.add('hidden');
             game.classList.remove('hidden');
+            wpmOverInterval = [];
+            i = 0;
          }
 
          //Counts down timer, and finishes game if timer hits 0
@@ -159,11 +172,15 @@ if (file_exists($fileExists)) {
             words.innerText = 'Click on restart to start new game.';
             accuracy_div.classList.remove("hidden");
             game.classList.add('hidden');
+            
+            makeGraph();
+
             input_area.value = "";
 
-
-            let wpm = ((charTyped / 5) /(time_elapsed/60));
+            let wpm = ((charTyped / 5) / (time_elapsed / 60));
             wpm_text.innerText = Math.round(wpm) + " wpm";
+            wpmOverInterval = [];
+            i = 0;
          }
 
          //Handles text input, correct/incorrect text, moving cursor
@@ -198,27 +215,35 @@ if (file_exists($fileExists)) {
                }
             });
             words_array.forEach((char, index) => {
-            	if(index >= input_array.length){
-            	   if(char.classList.contains('extra_char')){
-            	      char.remove();
-            	   }else if(char.classList.contains('incorrect_char') || char.classList.contains('correct_char')){
-            	      char.classList.remove('incorrect_char');
-            	      char.classList.remove('correct_char');
-            	      charTyped -= 2;
-            	   }
-            	}
+               if (index >= input_array.length) {
+                  if (char.classList.contains('extra_char')) {
+                     char.remove();
+                  } else if (char.classList.contains('incorrect_char') || char.classList.contains('correct_char')) {
+                     char.classList.remove('incorrect_char');
+                     char.classList.remove('correct_char');
+                     charTyped -= 2;
+                  }
+               }
             });
 
             total_errors = total_errors + errors;
-            errors_text.innerText = total_errors;
+            errors_text.innerText = total_errors + " errors";
 
             let accuracy = ((charTyped - total_errors) / charTyped) * 100;
-            accuracy_text.innerText = Math.round(accuracy);
+            accuracy_text.innerText = Math.round(accuracy) + "% acc";
+
+            //wpm display every 2 seconds
+            wpm = (charTyped / 5) / (time_elapsed / 60);
             
-            //wpm display every 3 seconds
-            wpm = (charTyped/5)/(time_elapsed/60);
-            if(time % 3 === 0)
+            if (wpm < 0){ //Fixes wpm going negative from deleted words
+               wpm = 0;
+            }
+
+            if (time % 2 === 0 || time === 0 || time === 1) {
                wpm_text.innerText = Math.round(wpm) + " wpm";
+               wpmOverInterval[i] = wpm;
+               i++;
+            }
 
             if (input_array.length === words_array.length) {
                updateWords();
@@ -259,6 +284,37 @@ if (file_exists($fileExists)) {
                words.appendChild(charSpan);
             });
          }
+
+         function makeGraph() {
+            let totalTime = max_TIME;
+            // let intervals = totalTime/(totalTime/15);  //If 2 second grab time @ totalTime/10 game time (30s), there would be 10 points on graph (2/ (30/10)) == 15
+            let countUp = 0;                              //If 2 second grab time @ totalTime/10 game time (60s), there would be 10 points on graph (2/ (60/10)) == 15
+            let countUpVal = totalTime/15;
+            let xValCount = [];
+
+            // Divides total time into 10 points on the graph for tracking wpm over the course of the test
+            for (let count=0; count<=15; count++){
+               xValCount[count] = countUp;
+               countUp += countUpVal; //Ensures we always have 15 points, no matter the time chosen
+            }
+
+            new Chart("wpmGraph", {
+               type: "line",
+               data: {
+                  labels: xValCount,
+                  datasets: [{
+                     data: wpmOverInterval,
+                     borderColor: "red",
+                     fill: false
+                  }]
+               },
+               options: {
+                  legend: { display: false }
+               }
+            });
+
+         }
+
 
       </script>
    </div>
