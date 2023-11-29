@@ -26,8 +26,8 @@ if (file_exists($fileExists)) {
       <header>
          <div class="leftMenus">
             <ul>
-               <li> profile </li>
-               <li> friends </li>
+               <li> settings </li>
+               <li> themes </li>
             </ul>
          </div>
 
@@ -37,8 +37,8 @@ if (file_exists($fileExists)) {
 
          <div class="rightMenus">
             <ul>
-               <li> theme </li>
-               <li> site settings </li>
+               <li> friends </li>
+               <li> profile </li>
             </ul>
          </div>
 
@@ -172,7 +172,7 @@ if (file_exists($fileExists)) {
             words.innerText = 'Click on restart to start new game.';
             accuracy_div.classList.remove("hidden");
             game.classList.add('hidden');
-            
+
             makeGraph();
 
             input_area.value = "";
@@ -218,7 +218,8 @@ if (file_exists($fileExists)) {
                if (index >= input_array.length) {
                   if (char.classList.contains('extra_char')) {
                      char.remove();
-                  } else if (char.classList.contains('incorrect_char') || char.classList.contains('correct_char')) {
+                  }
+                  else if (char.classList.contains('incorrect_char') || char.classList.contains('correct_char')) {
                      char.classList.remove('incorrect_char');
                      char.classList.remove('correct_char');
                      charTyped -= 2;
@@ -232,14 +233,14 @@ if (file_exists($fileExists)) {
             let accuracy = ((charTyped - total_errors) / charTyped) * 100;
             accuracy_text.innerText = Math.round(accuracy) + "% acc";
 
-            //wpm display every 2 seconds
             wpm = (charTyped / 5) / (time_elapsed / 60);
-            
-            if (wpm < 0){ //Fixes wpm going negative from deleted words
+
+            if (wpm < 0) { //Fixes wpm going negative from deleted words
                wpm = 0;
             }
-
-            if (time % 2 === 0 || time === 0 || time === 1) {
+            
+            //wpm display every 2 seconds
+            if (time % 2 === 0) {
                wpm_text.innerText = Math.round(wpm) + " wpm";
                wpmOverInterval[i] = wpm;
                i++;
@@ -287,13 +288,12 @@ if (file_exists($fileExists)) {
 
          function makeGraph() {
             let totalTime = max_TIME;
-            // let intervals = totalTime/(totalTime/15);  //If 2 second grab time @ totalTime/10 game time (30s), there would be 10 points on graph (2/ (30/10)) == 15
-            let countUp = 0;                              //If 2 second grab time @ totalTime/10 game time (60s), there would be 10 points on graph (2/ (60/10)) == 15
-            let countUpVal = totalTime/15;
+            let countUp = 0;
+            let countUpVal = totalTime / 15;
             let xValCount = [];
 
             // Divides total time into 10 points on the graph for tracking wpm over the course of the test
-            for (let count=0; count<=15; count++){
+            for (let count = 0; count <= 15; count++) {
                xValCount[count] = countUp;
                countUp += countUpVal; //Ensures we always have 15 points, no matter the time chosen
             }
@@ -312,10 +312,7 @@ if (file_exists($fileExists)) {
                   legend: { display: false }
                }
             });
-
          }
-
-
       </script>
    </div>
 </body>
