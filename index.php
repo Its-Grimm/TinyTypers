@@ -109,6 +109,8 @@ if (file_exists($fileExists)) {
          let max_TIME = 10;
          let timer = null;
          let time = max_TIME;
+         let time_elapsed = 0;
+         let wpm = 0;
          let charTyped = 0;
          let total_errors = 0;
          let curr_words = "";
@@ -126,7 +128,11 @@ if (file_exists($fileExists)) {
          function reset() {
             input_area.disabled = false;
             time = max_TIME;
-            wpm.innerText = "";
+            time_elapsed = 0;
+            wpm = 0;
+            charTyped = 0;
+            total_errors = 0;
+            wpm_text.innerText = "0 wpm";
             timer_text.innerText = max_TIME + "s";
             input_area.value = "";
             accuracy_text.innerText = 100;
@@ -138,6 +144,7 @@ if (file_exists($fileExists)) {
          function updateTimer() {
             if (time > 0) {
                time--;
+               time_elapsed++;
                timer_text.innerText = time + 's';
             }
             else {
@@ -155,8 +162,8 @@ if (file_exists($fileExists)) {
             input_area.value = "";
 
 
-            let wpm = ((charTyped / 5) / max_TIME) * 60;
-            wpm_text.innerText = Math.round(wpm) + "wpm";
+            let wpm = ((charTyped / 5) /(time_elapsed/60));
+            wpm_text.innerText = Math.round(wpm) + " wpm";
          }
 
          //Handles text input, correct/incorrect text, moving cursor
@@ -190,12 +197,28 @@ if (file_exists($fileExists)) {
                   }
                }
             });
+            words_array.forEach((char, index) => {
+            	if(index >= input_array.length){
+            	   if(char.classList.contains('extra_char')){
+            	      char.remove();
+            	   }else if(char.classList.contains('incorrect_char') || char.classList.contains('correct_char')){
+            	      char.classList.remove('incorrect_char');
+            	      char.classList.remove('correct_char');
+            	      charTyped -= 2;
+            	   }
+            	}
+            });
 
             total_errors = total_errors + errors;
             errors_text.innerText = total_errors;
 
             let accuracy = ((charTyped - total_errors) / charTyped) * 100;
             accuracy_text.innerText = Math.round(accuracy);
+            
+            //wpm display every 3 seconds
+            wpm = (charTyped/5)/(time_elapsed/60);
+            if(time % 3 === 0)
+               wpm_text.innerText = Math.round(wpm) + " wpm";
 
             if (input_array.length === words_array.length) {
                updateWords();
