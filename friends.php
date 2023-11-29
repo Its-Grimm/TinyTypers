@@ -12,7 +12,7 @@
 <html>
 
 <head>
-   <title>TinyType Friends</title>
+   <title> TinyTypers Friends </title>
    <link rel="stylesheet" href="friends_styles.css">
 </head>
 
@@ -30,8 +30,8 @@
       <!-- MAIN AREA -->
 
       <div class="main">
-         <div class="friendsBoxxes">
-            <label for="friendsBoxxes"> Jacky John </label>
+         <div class="friendsBoxes">
+            <label for="friendsBoxes"> Jacky John </label>
 
          </div>
 
