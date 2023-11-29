@@ -29,8 +29,14 @@
 
       <!-- MAIN AREA -->
 
+      <div class="main">
+         <div class="friendsBoxxes">
+            <label for="friendsBoxxes"> Jacky John </label>
+
+         </div>
 
 
+      </div>
 
       <!-- FOOTER -->
 
