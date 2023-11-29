@@ -29,7 +29,7 @@ header {
 .leftMenus ul {
    position: fixed;
    list-style: none;
-   left: 67px;
+   left: 30px;
 }
 
 .leftMenus li {
@@ -150,6 +150,7 @@ nav li {
    color: white;
    font-size: 30px;
    background-color: #191919;
+   border-color: #191919;
    box-sizing: border-box;
 }
 
