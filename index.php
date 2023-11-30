@@ -126,6 +126,7 @@ if (file_exists($fileExists)) {
          let wpmOverInterval = [];
          let i = 0;
          timer_text.innerText = max_TIME + "s";
+         
 
          //Starts game
          function startGame() {
@@ -151,6 +152,7 @@ if (file_exists($fileExists)) {
             game.classList.remove('hidden');
             wpmOverInterval = [];
             i = 0;
+            words.innerText = 'Start typing tp create game';
          }
 
          //Counts down timer, and finishes game if timer hits 0
@@ -189,8 +191,15 @@ if (file_exists($fileExists)) {
             makeGraph();
 
             input_area.value = "";
+            
+            errors_text.innerText = total_errors + " errors";
+            
+            let accuracy = ((charTyped - total_errors)/charTyped)*100;
+            accuracy_text.innerText = Math.round(accuracy) + "% acc";
 
             let wpm = ((charTyped / 5) / (time_elapsed / 60));
+            if(wpm < 0)
+               wpm = 0;
             wpm_text.innerText = Math.round(wpm) + " wpm";
             wpmOverInterval = [];
             i = 0;
@@ -203,6 +212,12 @@ if (file_exists($fileExists)) {
             words_array = words.querySelectorAll('span');
             let errors = 0;
             charTyped++;
+            input_area.onkeydown = function(){
+               var key = event.keyCode || event.charCode;
+               if((key === 8 || key === 46) && input.length > 0){
+                  charTyped -= 2;
+               }
+            }
 
             input_array.forEach((char, index) => {
                let words_char = words_array[index];
@@ -229,22 +244,19 @@ if (file_exists($fileExists)) {
             });
             words_array.forEach((char, index) => {
                if (index >= input_array.length) {
+                  
+                  if (char.classList.contains('incorrect_char')) {
+                     char.classList.remove('incorrect_char'); 
+                  }else if(char.classList.contains('correct_char')){
+                     char.classList.remove('correct_char');
+                  }
                   if (char.classList.contains('extra_char')) {
                      char.remove();
-                  }
-                  else if (char.classList.contains('incorrect_char') || char.classList.contains('correct_char')) {
-                     char.classList.remove('incorrect_char');
-                     char.classList.remove('correct_char');
-                     charTyped -= 2;
                   }
                }
             });
 
             total_errors = total_errors + errors;
-            errors_text.innerText = total_errors + " errors";
-
-            let accuracy = ((charTyped - total_errors) / charTyped) * 100;
-            accuracy_text.innerText = Math.round(accuracy) + "% acc";
 
             if (input_array.length === words_array.length) {
                updateWords();
