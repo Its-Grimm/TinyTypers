@@ -159,6 +159,19 @@ if (file_exists($fileExists)) {
                time--;
                time_elapsed++;
                timer_text.innerText = time + 's';
+               
+               wpm = (charTyped / 5) / (time_elapsed / 60);
+
+               if (wpm < 0) { //Fixes wpm going negative from deleted words
+                  wpm = 0;
+               }
+            
+               //wpm display every 2 seconds
+               if (time % 2 === 0) {
+                  wpm_text.innerText = Math.round(wpm) + " wpm";
+                  wpmOverInterval[i] = wpm;
+                  i++;
+               }
             }
             else {
                finishGame();
@@ -232,19 +245,6 @@ if (file_exists($fileExists)) {
 
             let accuracy = ((charTyped - total_errors) / charTyped) * 100;
             accuracy_text.innerText = Math.round(accuracy) + "% acc";
-
-            wpm = (charTyped / 5) / (time_elapsed / 60);
-
-            if (wpm < 0) { //Fixes wpm going negative from deleted words
-               wpm = 0;
-            }
-            
-            //wpm display every 2 seconds
-            if (time % 2 === 0) {
-               wpm_text.innerText = Math.round(wpm) + " wpm";
-               wpmOverInterval[i] = wpm;
-               i++;
-            }
 
             if (input_array.length === words_array.length) {
                updateWords();
