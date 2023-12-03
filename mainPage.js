@@ -20,6 +20,7 @@ let curr_words = "";
 let wpmOverInterval = [];
 let i = 0;
 timer_text.innerText = max_TIME + "s";
+let accuracy = 0;
 
 
 //Starts game
@@ -46,6 +47,7 @@ function reset() {
    game.classList.remove('hidden');
    wpmOverInterval = [];
    i = 0;
+   accuracy = 0;
    words.innerText = 'Start typing to create game';
 }
 
@@ -87,8 +89,14 @@ function finishGame() {
    input_area.value = "";
    
    errors_text.innerText = total_errors + " errors";
-   
-   let accuracy = ((charTyped - total_errors)/charTyped)*100;
+   if(charTyped === 0 && total_errors === 0)
+      accuracy = 0;
+   else
+      accuracy = ((charTyped - total_errors)/charTyped)*100;
+   if(accuracy < 0)
+      accuracy = 0;
+   else if(accuracy >100)
+     accuracy = 100;
    accuracy_text.innerText = Math.round(accuracy) + "% acc";
 
    let wpm = ((charTyped / 5) / (time_elapsed / 60));
@@ -113,20 +121,21 @@ function processText() {
       }
    }
 
+   let countWords = 0;
    input_array.forEach((char, index) => {
       let words_char = words_array[index];
 
       if (!words_char.classList.contains('extra_char')) {
          if (char === words_char.innerText) {
+            if(char === " ")
+               countWords++;
             words_char.classList.add('correct_char');
             words_char.classList.remove('incorrect_char');
          }
          else {
             words_char.classList.add('incorrect_char');
             words_char.classList.remove('correct_char');
-            if (index === input_array.length - 1) {
-               errors++;
-            }
+            errors++;
             if (words_char.innerText === " ") {
                const charSpan = document.createElement('span');
                charSpan.innerText = char;
@@ -151,11 +160,38 @@ function processText() {
       }
    });
 
-   total_errors = total_errors + errors;
+   total_errors = errors;
 
+   if(countWords >= 2){
+      shiftWords();
+   }
+   
    if (input_array.length === words_array.length) {
       updateWords();
       input_area.value = "";
+   }
+}
+
+function shiftWords() {
+   let shifted = "";
+   let count = 0;
+  
+   words_array = words.querySelectorAll('span');
+      while(shifted !== " "){
+         shifted = words_array[count].innerText;
+         words_array[count].remove();
+         count++;
+      }
+    
+   input = input_area.value;
+   input_array = input.split('');
+   shifted = "";
+   while(shifted !== " "){
+      shifted = input_array.shift();
+   }
+   input_area.value = input_array.join("");
+   for( let i = 0; i < words_array.length(); i++){
+      words.textContent =+ words_array[i];
    }
 }
 
