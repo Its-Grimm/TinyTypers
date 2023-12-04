@@ -22,6 +22,8 @@ let i = 0;
 timer_text.innerText = max_TIME + "s";
 let accuracy = 0;
 var graph = null;
+let errors = 0;
+let passedErrors = 0;
 
 
 //Starts game
@@ -50,6 +52,8 @@ function reset() {
    wpmOverInterval = [];
    i = 0;
    accuracy = 0;
+   errors =0;
+   passedErrors = 0;
    words.innerText = 'Start typing to create game';
 }
 
@@ -114,7 +118,7 @@ function processText() {
    input = input_area.value;
    input_array = input.split('');
    words_array = words.querySelectorAll('span');
-   let errors = 0;
+   errors = 0;
    charTyped++;
    input_area.onkeydown = function(){
       var key = event.keyCode || event.charCode;
@@ -162,7 +166,7 @@ function processText() {
       }
    });
 
-   total_errors = errors;
+   total_errors = errors + passedErrors;
 
    if(countWords >= 2){
       shiftWords();
@@ -180,11 +184,15 @@ function shiftWords() {
   
    words_array = words.querySelectorAll('span');
       while(shifted !== " "){
+         if(words_array[count].classList.contains('incorrect_char') || words_array[count].classList.contains('extra_char')){
+            passedErrors++;
+         }
          shifted = words_array[count].innerText;
          words_array[count].remove();
          count++;
       }
-    
+    total_errors = errors + passedErrors;
+    addWord();
    input = input_area.value;
    input_array = input.split('');
    shifted = "";
@@ -206,6 +214,24 @@ function updateWords() {
    words.textContent = null;
 
    curr_words.split('').forEach(char => {
+      const charSpan = document.createElement('span');
+      charSpan.innerText = char;
+      words.appendChild(charSpan);
+   });
+}
+
+//add word to the end of words
+function addWord(){
+   let rand = Math.floor(Math.random() * testWords.length);
+   let newWord = testWords[rand].trim();
+   
+   //adds a space between words
+   const charSpan = document.createElement('span');
+   charSpan.innerText = " ";
+   words.appendChild(charSpan);
+   
+   //add new word
+   newWord.split('').forEach(char => {
       const charSpan = document.createElement('span');
       charSpan.innerText = char;
       words.appendChild(charSpan);
