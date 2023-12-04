@@ -21,6 +21,7 @@ let wpmOverInterval = [];
 let i = 0;
 timer_text.innerText = max_TIME + "s";
 let accuracy = 0;
+var graph = null;
 
 
 //Starts game
@@ -33,6 +34,7 @@ function startGame() {
 
 //Resets the game when restart button is clicked
 function reset() {
+
    input_area.disabled = false;
    time = max_TIME;
    time_elapsed = 0;
@@ -211,6 +213,9 @@ function updateWords() {
 }
 
 function makeGraph() {
+   if (graph != null){
+      graph.destroy();
+   }
    let totalTime = max_TIME;
    let countUp = 0;
    let countUpVal = totalTime / 15;
@@ -222,7 +227,7 @@ function makeGraph() {
       countUp += countUpVal; //Ensures we always have 15 points, no matter the time chosen
    }
 
-   new Chart("wpmGraph", {
+   graph = new Chart("wpmGraph", {
       type: "line",
       data: {
          labels: xValCount,
