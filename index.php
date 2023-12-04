@@ -38,8 +38,9 @@ if (file_exists($fileExists)) {
 
          <div class="rightMenus">
             <ul>
-               <li> friends </li>
-               <li> profile </li>
+               <!-- <li> friends </li> -->
+               <!-- <li> profile </li> -->
+               <li><a style="text-decoration: none; color:#6a5acd" href="profile.php" title="Login or Register"> Login or Register </a></li>
             </ul>
          </div>
 
@@ -109,22 +110,23 @@ if (file_exists($fileExists)) {
       }
 
       $firstWord = true;
-      $allWordsStr = "";
+      $testWordsStr = "";
       foreach ($randomWords as $word) {
          $trimmedWord = rtrim($word, "\r\n");
          if (!$firstWord) {
-            $allWordsStr .= " ";
+            $testWordsStr .= " ";
          } else {
             $firstWord = false;
          }
-         $allWordsStr .= $trimmedWord;
+         $testWordsStr .= $trimmedWord;
       }
       ?>
 
       <!-- JS SCRIPTS -->
 
       <script>
-         var arrayData = <?php echo json_encode($allWordsStr); ?>;
+         var arrayData = <?php echo json_encode($testWordsStr); ?>;
+         var testWords = <?php echo json_encode($allWords); ?>;
       </script>
 
       <script src="mainPage.js"> </script>
