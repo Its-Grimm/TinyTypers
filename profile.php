@@ -1,12 +1,11 @@
 <?php
 
-$db = mysqli_connect("69.172.204.200", "tp", "New_Web_2023!", "tp_db");
-if (!$db) {
-   die("Cannot connect to database! Error: " . mysqli_connect_error());
-}
+// $db = mysqli_connect("69.172.204.200", "tp", "New_Web_2023!", "tp_db");
+// if (!$db) {
+//    die("Cannot connect to database! Error: " . mysqli_connect_error());
+// }
 
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -18,6 +17,8 @@ if (!$db) {
 </head>
 
 <body>
+   <script src="profileJQuery.js"> </script>
+
    <div id="wrapper">
 
       <!-- HEADER -->
@@ -29,19 +30,58 @@ if (!$db) {
       </header>
 
       <!-- MAIN AREA -->
-      <div class="main">
-         <label for="main"> LOGIN </label>
-         <label for="main"> REGISTER </label>
-
-         <div class="login">
-            <label for="login"> LOGIN HERE </label>
+      <form action="" class="main">
+         <div class="mainTitle">
+            <label for="main" class="login"> LOGIN </label>
+            <label for="main" class="register"> REGISTER </label>
          </div>
 
+         <div class="loginForm">
+            <ul>
+               <li class="loginUser"> Username or Email <br>
+                  <input type="text" class="loginUserInp">
+               </li>
 
-         <div class="register">
-            <label for="register"> REGISTER HERE </label>
+               <li class="loginPass"> Password <br>
+                  <input type="password" class="loginPassInp">
+               </li>
+
+               <li class="loginSubmit">
+                  <input type="button" class="loginButton" value="Login">
+               </li>
+            </ul>
          </div>
-      </div>
+
+         <div class="registerForm">
+            <ul class="mainInfo">
+               <li class="regUser"> Username<br>
+                  <input type="text" class="regUserInp">
+               </li>
+
+               <li class="regEmail"> Email <br>
+                  <input type="text" class="regEmailInp">
+               </li>
+
+               <li class="regPass"> Password <br>
+                  <input type="password" class="regPassInp">
+               </li>
+            </ul>
+
+            <ul class="secondaryInfo">
+               <li class="fName"> First Name <br>
+                  <input type="text" class="regFNameInp">
+               </li>
+
+               <li class="lName"> Last Name <br>
+                  <input type="text" class="regLNameInp">
+               </li>
+
+               <li class="regSubmit">
+                  <input type="button" class="regButton" value="Register">
+               </li>
+            </ul>
+         </div>
+      </form>
 
       <!-- FOOTER -->
 
