@@ -101,31 +101,10 @@ if (file_exists($fileExists)) {
          </nav>
       </footer>
 
-      <!-- PHP  -->
-
-      <?php
-      for ($i = 0; $i < 30; $i++) {
-         $randomIndex = rand(0, count($allWords) - 1);
-         $randomWords[$i] = $allWords[$randomIndex];
-      }
-
-      $firstWord = true;
-      $testWordsStr = "";
-      foreach ($randomWords as $word) {
-         $trimmedWord = rtrim($word, "\r\n");
-         if (!$firstWord) {
-            $testWordsStr .= " ";
-         } else {
-            $firstWord = false;
-         }
-         $testWordsStr .= $trimmedWord;
-      }
-      ?>
 
       <!-- JS SCRIPTS -->
 
       <script>
-         var arrayData = <?php echo json_encode($testWordsStr); ?>;
          var testWords = <?php echo json_encode($allWords); ?>;
       </script>
 
