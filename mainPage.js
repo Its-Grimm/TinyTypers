@@ -209,15 +209,25 @@ function shiftWords() {
 function updateWords() {
 
    // Grabs from php in index.php
-   curr_words = arrayData;
 
    words.textContent = null;
-
-   curr_words.split('').forEach(char => {
-      const charSpan = document.createElement('span');
-      charSpan.innerText = char;
-      words.appendChild(charSpan);
-   });
+   let firstWord = true;
+   for (let i = 0; i < 30; i++){
+      let rand = Math.floor(Math.random()*testWords.length);
+      curr_words = testWords[rand].trim();
+      if(!firstWord){
+         const charSpan = document.createElement('span');
+         charSpan.innerText = " ";
+         words.appendChild(charSpan)
+      }else{
+         firstWord = false;
+      }
+      curr_words.split('').forEach(char => {
+         const charSpan = document.createElement('span');
+         charSpan.innerText = char;
+         words.appendChild(charSpan);
+      });
+   }
 }
 
 //add word to the end of words
