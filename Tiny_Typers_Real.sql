@@ -79,7 +79,7 @@ CREATE TABLE `run_wpm` (
 CREATE TABLE `user` (
   `id` int NOT NULL,
   `email` varchar(100) NOT NULL,
-  `passowrd` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
   `friend_code` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
