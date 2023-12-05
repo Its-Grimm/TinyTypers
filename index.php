@@ -1,11 +1,14 @@
 <!-- PHP -->
 
 <?php
+session_start();
+
 $fileExists = 'englishWords.txt';
 
 if (file_exists($fileExists)) {
    $allWords = file($fileExists);
 }
+
 ?>
 
 <!-- HTML START -->
@@ -27,8 +30,8 @@ if (file_exists($fileExists)) {
       <header>
          <div class="leftMenus">
             <ul>
-               <li> settings </li>
-               <li> themes </li>
+               <li> Settings </li>
+               <li> Themes </li>
             </ul>
          </div>
 
@@ -38,9 +41,17 @@ if (file_exists($fileExists)) {
 
          <div class="rightMenus">
             <ul>
-               <!-- <li> friends </li> -->
-               <!-- <li> profile </li> -->
-               <li><a style="text-decoration: none; color:#6a5acd" href="profile.php" title="Login or Register"> Login or Register </a></li>
+               <?php 
+               if (!isset($_SESSION['loggedIn'])) {
+                  echo '<li><a style="text-decoration: none; color:#6a5acd" href="profile.php" title="Login or Register"> Login or Register </a></li>';
+               } 
+               else {
+                  echo '<li><a style="text-decoration: none; color:#6a5acd" 
+                        href="friends.php" title="Friends"> Friends </li>';
+                  echo '<li><a style="text-decoration: none; color:#6a5acd" 
+                        href="profile.php" title="Profile"> Profile </li>';
+               }
+               ?>
             </ul>
          </div>
 
@@ -87,7 +98,7 @@ if (file_exists($fileExists)) {
          </ul>
       </div>
 
-      <button id='restart_btn' onclick='reset()'>Restart</button>
+      <button id='restart_btn' onclick='reset()'> Restart </button>
 
       <footer>
          <nav>
