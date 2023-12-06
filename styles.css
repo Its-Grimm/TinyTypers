@@ -72,6 +72,15 @@ header {
    margin: auto;
 }
 
+#timeSelector {
+   font-weight: bold;
+   width: 50px;
+   color: #6a5acd;
+   background-color: #191919;
+   border-color: #191919;
+
+}
+
 nav {
    padding-top: 10px;
    padding-bottom: 15px;
