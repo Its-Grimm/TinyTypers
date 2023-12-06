@@ -1,8 +1,6 @@
 <!-- PHP -->
 
 <?php
-session_start();
-// $_SESSION['loggedIn'] = 'YES';
 $fileExists = 'englishWords.txt';
 
 if (file_exists($fileExists)) {
@@ -14,11 +12,12 @@ $cookieName = "isLoggedIn";
 if (!isset($_COOKIE[$cookieName])) {
    // $loggedInStatus = false;
    $loggedInStatus = false;
-}
-else{
+} else {
    $loggedInStatus = filter_input(INPUT_COOKIE, 'isLoggedIn');
    // $loggedInStatus = true;
 }
+
+$timeSelector = $_POST['timeSelector'];
 
 ?>
 
@@ -30,7 +29,6 @@ else{
 <head>
    <title> Tiny Typers </title>
    <link rel="stylesheet" href="styles.css">
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
 <body>
@@ -52,16 +50,15 @@ else{
 
          <div class="rightMenus">
             <ul>
-               <?php 
-                  if ($loggedInStatus == true) {
-                     echo '<li><a style="text-decoration: none; color:#6a5acd" 
+               <?php
+               if ($loggedInStatus == true) {
+                  echo '<li><a style="text-decoration: none; color:#6a5acd" 
                      href="friends.php" title="Friends"> Friends </a> </li>';
-                     echo '<li><a style="text-decoration: none; color:#6a5acd" 
+                  echo '<li><a style="text-decoration: none; color:#6a5acd" 
                      href="profile.php" title="Profile"> Profile </a> </li>';
-                  } 
-                  else {
-                     echo '<li><a style="text-decoration: none; color:#6a5acd" href="loginAndRegister.php" title="Login or Register"> Login or Register </a></li>';
-                  }
+               } else {
+                  echo '<li><a style="text-decoration: none; color:#6a5acd" href="loginAndRegister.php" title="Login or Register"> Login or Register </a></li>';
+               }
                ?>
             </ul>
          </div>
@@ -76,8 +73,17 @@ else{
                   <li> Setting 2 </li>
                   <li> Setting 3 </li>
                   <li> Setting 4 </li>
-                  <li> Setting 5 </li>
+                  <li>
+                     <label for="time"> Test Time:  </label>
+                     <select name="timeSelector" id="timeSelector" onchange="reset()">
+                        <option value="30" selected> 30s </option>
+                        <option value="45"> 45s </option>
+                        <option value="60"> 60s </option>
+                        <option value="120"> 120s </option>
+                     </select>
+                  </li>
                </ul>
+
             </nav>
          </div>
 
@@ -131,7 +137,7 @@ else{
       </script>
 
       <script src="mainPage.js"> </script>
-
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
    </div>
 </body>
 
