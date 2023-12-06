@@ -9,9 +9,11 @@ let accuracy_div = document.querySelector('.hidden');
 let game = document.querySelector('.game');
 
 // MAX TIME
-let max_TIME = 30;
+let selectedTime = document.querySelector('#timeSelector')
+let max_TIME = selectedTime.value;
+
 let timer = null;
-let time = max_TIME;
+let time = max_TIME
 let time_elapsed = 0;
 let wpm = 0;
 let charTyped = 0;
@@ -36,8 +38,12 @@ function startGame() {
 
 //Resets the game when restart button is clicked
 function reset() {
+   clearInterval(timer);
 
    input_area.disabled = false;
+   // time = max_TIME;
+   selectedTime = document.querySelector('#timeSelector')
+   max_TIME = selectedTime.value;
    time = max_TIME;
    time_elapsed = 0;
    wpm = 0;
@@ -54,7 +60,7 @@ function reset() {
    accuracy = 0;
    errors =0;
    passedErrors = 0;
-   words.innerText = 'Start typing to create game';
+   words.innerText = 'Click on the textbox to start a game';
 }
 
 //Counts down timer, and finishes game if timer hits 0
@@ -69,9 +75,8 @@ function updateTimer() {
       if (wpm < 0) { //Fixes wpm going negative from deleted words
          wpm = 0;
       }
-   
-      //wpm display every 2 seconds
-      if (time % 2 === 0 || time === max_TIME-1) {
+
+      if (time % (max_TIME/15) === 0 || time === max_TIME-1) {
          wpm_text.innerText = Math.round(wpm) + " wpm";
          wpmOverInterval[i] = wpm;
          i++;
