@@ -55,12 +55,12 @@ else{
                <?php 
                   if ($loggedInStatus == true) {
                      echo '<li><a style="text-decoration: none; color:#6a5acd" 
-                     href="friends.php" title="Friends"> Friends </li>';
+                     href="friends.php" title="Friends"> Friends </a> </li>';
                      echo '<li><a style="text-decoration: none; color:#6a5acd" 
-                     href="profile.php" title="Profile"> Profile </li>';
+                     href="profile.php" title="Profile"> Profile </a> </li>';
                   } 
                   else {
-                     echo '<li><a style="text-decoration: none; color:#6a5acd" href="profile.php" title="Login or Register"> Login or Register </a></li>';
+                     echo '<li><a style="text-decoration: none; color:#6a5acd" href="loginAndRegister.php" title="Login or Register"> Login or Register </a></li>';
                   }
                ?>
             </ul>
@@ -82,7 +82,7 @@ else{
          </div>
 
          <div class="mainText">
-            <label for="mainText" id="quote"> Start typing to create game </label>
+            <label for="mainText" id="quote"> Click on the textbox to start a game </label>
          </div>
       </div>
 
