@@ -7,21 +7,18 @@ let input_area = document.getElementById('input_area');
 let words = document.getElementById('quote');
 let accuracy_div = document.querySelector('.hidden');
 let game = document.querySelector('.game');
-
-// MAX TIME
 let selectedTime = document.querySelector('#timeSelector')
 let max_TIME = selectedTime.value;
-
 let timer = null;
 let time = max_TIME
 let time_elapsed = 0;
+timer_text.innerText = max_TIME + "s";
 let wpm = 0;
 let charTyped = 0;
 let total_errors = 0;
 let curr_words = "";
 let wpmOverInterval = [];
 let i = 0;
-timer_text.innerText = max_TIME + "s";
 let accuracy = 0;
 var graph = null;
 let errors = 0;
@@ -41,7 +38,6 @@ function reset() {
    clearInterval(timer);
 
    input_area.disabled = false;
-   // time = max_TIME;
    selectedTime = document.querySelector('#timeSelector')
    max_TIME = selectedTime.value;
    time = max_TIME;
@@ -58,7 +54,7 @@ function reset() {
    wpmOverInterval = [];
    i = 0;
    accuracy = 0;
-   errors =0;
+   errors = 0;
    passedErrors = 0;
    words.innerText = 'Click on the textbox to start a game';
 }
@@ -69,14 +65,14 @@ function updateTimer() {
       time--;
       time_elapsed++;
       timer_text.innerText = time + 's';
-      
+
       wpm = (charTyped / 5) / (time_elapsed / 60);
 
       if (wpm < 0) { //Fixes wpm going negative from deleted words
          wpm = 0;
       }
 
-      if (time % (max_TIME/15) === 0 || time === max_TIME-1) {
+      if (time % (max_TIME / 15) === 0 || time === max_TIME - 1) {
          wpm_text.innerText = Math.round(wpm) + " wpm";
          wpmOverInterval[i] = wpm;
          i++;
@@ -98,21 +94,27 @@ function finishGame() {
    makeGraph();
 
    input_area.value = "";
-   
+
    errors_text.innerText = total_errors + " errors";
-   if(charTyped === 0 && total_errors === 0)
+   if (charTyped === 0 && total_errors === 0){
       accuracy = 0;
-   else
-      accuracy = ((charTyped - total_errors)/charTyped)*100;
-   if(accuracy < 0)
+   }
+   else{
+      accuracy = ((charTyped - total_errors) / charTyped) * 100;
+   }
+
+   if (accuracy < 0) {
       accuracy = 0;
-   else if(accuracy >100)
-     accuracy = 100;
+   }
+   else if (accuracy > 100) {
+      accuracy = 100;
+   }
    accuracy_text.innerText = Math.round(accuracy) + "% acc";
 
    let wpm = ((charTyped / 5) / (time_elapsed / 60));
-   if(wpm < 0)
+   if (wpm < 0){
       wpm = 0;
+   }
    wpm_text.innerText = Math.round(wpm) + " wpm";
    wpmOverInterval = [];
    i = 0;
@@ -125,9 +127,9 @@ function processText() {
    words_array = words.querySelectorAll('span');
    errors = 0;
    charTyped++;
-   input_area.onkeydown = function(){
+   input_area.onkeydown = function () {
       var key = event.keyCode || event.charCode;
-      if((key === 8 || key === 46) && input.length > 0){
+      if ((key === 8 || key === 46) && input.length > 0) {
          charTyped -= 2;
       }
    }
@@ -138,7 +140,7 @@ function processText() {
 
       if (!words_char.classList.contains('extra_char')) {
          if (char === words_char.innerText) {
-            if(char === " ")
+            if (char === " ")
                countWords++;
             words_char.classList.add('correct_char');
             words_char.classList.remove('incorrect_char');
@@ -147,6 +149,7 @@ function processText() {
             words_char.classList.add('incorrect_char');
             words_char.classList.remove('correct_char');
             errors++;
+
             if (words_char.innerText === " ") {
                const charSpan = document.createElement('span');
                charSpan.innerText = char;
@@ -159,10 +162,10 @@ function processText() {
 
    words_array.forEach((char, index) => {
       if (index >= input_array.length) {
-         
          if (char.classList.contains('incorrect_char')) {
-            char.classList.remove('incorrect_char'); 
-         }else if(char.classList.contains('correct_char')){
+            char.classList.remove('incorrect_char');
+         } 
+         else if (char.classList.contains('correct_char')) {
             char.classList.remove('correct_char');
          }
          if (char.classList.contains('extra_char')) {
@@ -173,10 +176,10 @@ function processText() {
 
    total_errors = errors + passedErrors;
 
-   if(countWords >= 2){
+   if (countWords >= 2) {
       shiftWords();
    }
-   
+
    if (input_array.length === words_array.length) {
       updateWords();
       input_area.value = "";
@@ -186,45 +189,43 @@ function processText() {
 function shiftWords() {
    let shifted = "";
    let count = 0;
-  
+
    words_array = words.querySelectorAll('span');
-      while(shifted !== " "){
-         if(words_array[count].classList.contains('incorrect_char') || words_array[count].classList.contains('extra_char')){
-            passedErrors++;
-         }
-         shifted = words_array[count].innerText;
-         words_array[count].remove();
-         count++;
+   while (shifted !== " ") {
+      if (words_array[count].classList.contains('incorrect_char') || words_array[count].classList.contains('extra_char')) {
+         passedErrors++;
       }
-    total_errors = errors + passedErrors;
-    addWord();
+      shifted = words_array[count].innerText;
+      words_array[count].remove();
+      count++;
+   }
+   total_errors = errors + passedErrors;
+   addWord();
    input = input_area.value;
    input_array = input.split('');
    shifted = "";
-   while(shifted !== " "){
+   while (shifted !== " ") {
       shifted = input_array.shift();
    }
    input_area.value = input_array.join("");
-   for( let i = 0; i < words_array.length(); i++){
-      words.textContent =+ words_array[i];
+   for (let i = 0; i < words_array.length(); i++) {
+      words.textContent = + words_array[i];
    }
 }
 
 //WHERE TYPING WORDS ARE ASSIGNED
 function updateWords() {
-
-   // Grabs from php in index.php
-
    words.textContent = null;
    let firstWord = true;
-   for (let i = 0; i < 30; i++){
-      let rand = Math.floor(Math.random()*testWords.length);
+   for (let i = 0; i < 30; i++) {
+      let rand = Math.floor(Math.random() * testWords.length);
       curr_words = testWords[rand].trim();
-      if(!firstWord){
+      if (!firstWord) {
          const charSpan = document.createElement('span');
          charSpan.innerText = " ";
          words.appendChild(charSpan)
-      }else{
+      } 
+      else {
          firstWord = false;
       }
       curr_words.split('').forEach(char => {
@@ -236,15 +237,15 @@ function updateWords() {
 }
 
 //add word to the end of words
-function addWord(){
+function addWord() {
    let rand = Math.floor(Math.random() * testWords.length);
    let newWord = testWords[rand].trim();
-   
+
    //adds a space between words
    const charSpan = document.createElement('span');
    charSpan.innerText = " ";
    words.appendChild(charSpan);
-   
+
    //add new word
    newWord.split('').forEach(char => {
       const charSpan = document.createElement('span');
@@ -254,7 +255,7 @@ function addWord(){
 }
 
 function makeGraph() {
-   if (graph != null){
+   if (graph != null) {
       graph.destroy();
    }
    let totalTime = max_TIME;
