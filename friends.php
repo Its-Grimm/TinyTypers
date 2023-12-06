@@ -23,7 +23,7 @@
 
       <header>
          <div class="title">
-            <label> TinyTypers </label>
+            <label> <a style="text-decoration: none; color:#6a5acd"  href="index.php" title="Home"> TinyTypers </a> </label>
          </div>
       </header>
 
