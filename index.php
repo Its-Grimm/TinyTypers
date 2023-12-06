@@ -2,11 +2,22 @@
 
 <?php
 session_start();
-
+// $_SESSION['loggedIn'] = 'YES';
 $fileExists = 'englishWords.txt';
 
 if (file_exists($fileExists)) {
    $allWords = file($fileExists);
+}
+
+
+$cookieName = "isLoggedIn";
+if (!isset($_COOKIE[$cookieName])) {
+   // $loggedInStatus = false;
+   $loggedInStatus = false;
+}
+else{
+   $loggedInStatus = filter_input(INPUT_COOKIE, 'isLoggedIn');
+   // $loggedInStatus = true;
 }
 
 ?>
@@ -42,15 +53,15 @@ if (file_exists($fileExists)) {
          <div class="rightMenus">
             <ul>
                <?php 
-               if (!isset($_SESSION['loggedIn'])) {
-                  echo '<li><a style="text-decoration: none; color:#6a5acd" href="profile.php" title="Login or Register"> Login or Register </a></li>';
-               } 
-               else {
-                  echo '<li><a style="text-decoration: none; color:#6a5acd" 
-                        href="friends.php" title="Friends"> Friends </li>';
-                  echo '<li><a style="text-decoration: none; color:#6a5acd" 
-                        href="profile.php" title="Profile"> Profile </li>';
-               }
+                  if ($loggedInStatus == true) {
+                     echo '<li><a style="text-decoration: none; color:#6a5acd" 
+                     href="friends.php" title="Friends"> Friends </li>';
+                     echo '<li><a style="text-decoration: none; color:#6a5acd" 
+                     href="profile.php" title="Profile"> Profile </li>';
+                  } 
+                  else {
+                     echo '<li><a style="text-decoration: none; color:#6a5acd" href="profile.php" title="Login or Register"> Login or Register </a></li>';
+                  }
                ?>
             </ul>
          </div>
