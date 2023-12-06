@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 // Login creds
 $loginUsernameOrEmail = filter_input(INPUT_POST, 'loginUserOrEmail');
 $loginPassword = filter_input(INPUT_POST, 'loginPass');
@@ -10,41 +10,50 @@ $regPassword = filter_input(INPUT_POST, 'regPass');
 $regFName = filter_input(INPUT_POST, 'regFName');
 $regLName = filter_input(INPUT_POST, 'regLName');
 
-
 $db = mysqli_connect("69.172.204.200", "tp", "New_Web_2023!", "tp_Tiny_Typers");
 if (!$db) {
-   die("Cannot connect to database! Error: ".mysqli_connect_error());
+   die("Cannot connect to database! Error: " . mysqli_connect_error());
+}
+
+// If user is registering
+if (isset($_POST['registerButton'])) {
+   $regUserQuery = "INSERT INTO user VALUES (null, '$regUsername', '$regEmail', '$regPassword', '54321')";
+   $userQueryResult = mysqli_query($db, $regUserQuery);
+   
+   if ($userQueryResult == false || $userQueryResult == null || $userQueryResult == "") {
+      die("User not added");
+   }
+   else{
+      header("Location: profile.php");
+   }
 }
 
 // If user is logging in
-if (isset($_POST['login']) && !isset($_POST['register'])) {
+if (isset($_POST['loginButton'])) {
+   // Grabbing the password from the database thats associated with the username/email entered
    $loginQuery = "SELECT password FROM user WHERE username = '$loginUsernameOrEmail' OR email = '$loginUsernameOrEmail'";
-
    $queryResult = mysqli_query($db, $loginQuery);
 
    if ($queryResult == '' || $queryResult == null) {
       die("Invalid Username, Email, or Password entered. Try again!");
    }
+   
+   if ($queryResult == false){
+      die("No user under those credentials found. Please try again!");
+   }
+   
+   $correctRow = mysqli_fetch_assoc($queryResult);
+   $fetchedPassword = $correctRow["password"];
 
-   $row = mysqli_fetch_assoc($queryResult);
-   $fetchedPassword = $row["password"];
-
-
-   if (password_verify($password, $fetchedPassword)) {
-      header("Location: index.php/");
+   // If the password entered in the textbox matches the one uploaded to the website
+   if ($loginPassword == $fetchedPassword){
+      // $_SESSION["loggedIn"] = "isLoggedIn";
+      $cookieName = "isLoggedIn";
+      $cookieValue = true;
+      setcookie($cookieName, $cookieValue, time() + (86400*30), "/");
+      header("Location: index.php");
    }
 }
-
-// If user is registering
-if (isset($_POST['register']) && !isset($_POST['login'])) {
-   $regUserQuery = "INSERT INTO user (username, email, password) VALUES ('$regUsername', '$regEmail', '$regPassword')";
-   $regUserDetQuery = "INSERT INTO user_det (f_Name, l_name) VALUES ('$regFName', '$regLName')";
-
-   $userQueryResult = mysqli_query($db, $regUserQuery);
-   $userDetQueryResult = mysqli_query($db, $regUserDetQuery);
-   
-}
-
 
 
 ?>
@@ -66,8 +75,8 @@ if (isset($_POST['register']) && !isset($_POST['login'])) {
       <!-- HEADER -->
 
       <header>
-         <div class="title">
-            <label> TinyTypers </label>
+         <div class="title"> 
+            <label> <a style="text-decoration: none; color:#6a5acd"  href="index.php" title="Home"> TinyTypers </a> </label>
          </div>
       </header>
 
@@ -78,7 +87,8 @@ if (isset($_POST['register']) && !isset($_POST['login'])) {
             <label for="main" class="register"> REGISTER </label>
          </div>
 
-         <form action="" class="loginForm" name="loginForm">
+         <form action="" method="POST" class="loginForm" name="loginForm">
+
             <ul>
                <li class="loginUser"> Username or Email <br>
                   <input type="text" class="loginUserInp" name="loginUserOrEmail" required>
@@ -89,14 +99,14 @@ if (isset($_POST['register']) && !isset($_POST['login'])) {
                </li>
 
                <li class="loginSubmit">
-                  <input type="button" class="loginButton" value="Login" name="login">
+                  <input type="submit" class="loginButton" value="Login" name="loginButton">
                </li>
             </ul>
          </form>
 
-         <form action="" class="registerForm" name="registerForm">
+         <form action="" method="POST" class="registerForm" name="registerForm">
             <ul class="mainInfo">
-               <li class="regUser"> Username<br>
+               <li class="regUser"> Username <br>
                   <input type="text" class="regUserInp" name="regUser" required>
                </li>
 
@@ -119,9 +129,10 @@ if (isset($_POST['register']) && !isset($_POST['login'])) {
                </li>
 
                <li class="regSubmit">
-                  <input type="button" class="regButton" value="Register" name="register">
+                  <input type="submit" class="regButton" value="Register" name="registerButton">
                </li>
             </ul>
+         
          </form>
       </div>
 
