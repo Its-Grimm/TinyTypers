@@ -1,0 +1,161 @@
+body {
+   left: 0;
+   color: #6a5acd;
+   background-color: #111111;
+   font-family: "Roboto", Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#wrapper {
+   margin-left: auto;
+   margin-right: auto;
+   width: 960px;
+   height: auto;
+}
+
+/* HEADER AND TITLE*/
+
+header {
+   position: relative;
+   width: 100%;
+   height: 100px;
+   padding: 10px;
+   background-color: #111111;
+}
+
+.title {
+   position: absolute;
+   width: 50px;
+   left: 50%;
+   transform: translateX(-50%);
+   display: flex;
+   font-size: 50px;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+}
+
+/* MAIN AREA */
+
+.main {
+   width: 95%;
+   height: 400px;
+   top: 150px;
+   bottom: 150px;
+   margin: auto;
+   padding: 10px;
+   border-radius: 20px;
+   background-color: #191919;
+
+}
+
+.mainTitle {
+   border-radius: 10px;
+   border-bottom: #111111 5px solid;
+   border-top: #111111 5px solid;
+   padding-bottom: 12px; 
+}
+
+ul {
+   list-style: none;
+}
+
+.login, .register {
+   position: relative;
+   width: auto;
+   height: auto;
+   top: 5px;
+   font-size: 30px;
+   text-align: center;
+   border-radius: 10px;
+}
+.login {
+   left: 150px;
+}
+.register {
+   left: 550px;
+}
+
+.loginForm, .registerForm {
+   position: relative;
+   left: -20px;
+   font-size: 25px;
+   text-align: center;
+   color: white;
+   margin: auto;
+}
+
+.loginUser, .loginPass, .regUser, .regPass, .fName, .lName, .regEmail, .loginSubmit, .regSubmit {
+   padding: 20px;
+}
+
+.loginUserInp, .loginPassInp, .regUserInp, .regPassInp, .regFNameInp, .regLNameInp, .regEmailInp, .loginButton, .regButton {
+   width: 250px;
+   height: 25px;
+   font-size: 15px;
+   background-color: #111111;
+   border-radius: 5px;
+   border: 1px solid #5c5c5c;
+   color: white;
+   padding-left: 10px;
+   padding-right: 10px;
+}
+
+.mainInfo {
+   position: absolute;
+   top: 0px;
+   left: 100px;
+   width: auto;
+}
+
+.secondaryInfo {
+   position: absolute;
+   top: 0px;
+   right: 100px;
+   width: auto;
+}
+
+.loginButton, .regButton {
+   position: absolute;
+   width: 100px;
+   height: 50px;
+   background-color:#6a5acd ;
+   border-radius: 10px;
+   font-size: 20px;
+}
+.loginButton {
+   top: 240px;
+   left: 430px;
+}
+.regButton {
+   top: 235px;
+   left: 140px;
+}
+
+/* FOOTER */
+
+footer {
+   position: fixed;
+   width: 100%;
+   height: 45px;
+   left: 0px;
+   right: 0px;
+   bottom: 0px;
+   text-align: center;
+   background-color: #191919;
+   border-top: 5px #111111 solid;
+}
+
+footer ul {
+   padding: 0;
+   margin: 0;
+   display: flex;
+   list-style: none;
+   justify-content: center;
+}
+
+footer li {
+   margin: 15px 75px;
+   height: 10px;
+   line-height: 10px;
+   display: inline-block;
+}
