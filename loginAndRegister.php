@@ -14,9 +14,9 @@ if (!$db) {
    die("Cannot connect to database! Error: " . mysqli_connect_error());
 }
 
-// If user is registering
+// If user is registering and presses the register button
 if (isset($_POST['registerButton'])) {
-   $regUserQuery = "INSERT INTO user VALUES (null, '$regUsername', '$regEmail', '$regPassword', '54321')";
+   $regUserQuery = "INSERT INTO user (ID, username, email, password, friend_code) VALUES (null, '$regUsername', '$regEmail', '$regPassword', '54321')";
    $userQueryResult = mysqli_query($db, $regUserQuery);
    
    if ($userQueryResult == false || $userQueryResult == null || $userQueryResult == "") {
@@ -27,7 +27,7 @@ if (isset($_POST['registerButton'])) {
    }
 }
 
-// If user is logging in
+// If user is logging in and presses the login button
 if (isset($_POST['loginButton'])) {
    // Grabbing the password from the database thats associated with the username/email entered
    $loginQuery = "SELECT password FROM user WHERE username = '$loginUsernameOrEmail' OR email = '$loginUsernameOrEmail'";
@@ -46,15 +46,12 @@ if (isset($_POST['loginButton'])) {
 
    // If the password entered in the textbox matches the one uploaded to the website
    if ($loginPassword == $fetchedPassword){
-      // $_SESSION["loggedIn"] = "isLoggedIn";
       $cookieName = "isLoggedIn";
       $cookieValue = true;
       setcookie($cookieName, $cookieValue, time() + (86400*30), "/");
       header("Location: index.php");
    }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -98,7 +95,7 @@ if (isset($_POST['loginButton'])) {
                </li>
 
                <li class="loginSubmit">
-                  <input type="submit" class="loginButton" value="Login" name="loginButton">
+                  <input type="submit" class="loginButton" name="loginButton" value="Login">
                </li>
             </ul>
          </form>
@@ -140,11 +137,11 @@ if (isset($_POST['loginButton'])) {
       <footer>
          <nav>
             <ul>
-               <li> 1 </li>
-               <li> 2 </li>
-               <li> 3 </li>
-               <li> 4 </li>
-               <li> 5 </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/contactUs.html" title="Contact Us"> Contact Us </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/cookieUsage.html" title="Cookie Usage"> Cookie Usage </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/ourLocation.html" title="Our Location"> Our Location </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/aboutUs.html" title="About Us"> About Us </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="index.php" title="TinyTypers"> ©TinyTypers </a> </li>
             </ul>
          </nav>
       </footer>

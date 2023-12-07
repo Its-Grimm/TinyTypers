@@ -7,14 +7,12 @@ if (file_exists($fileExists)) {
    $allWords = file($fileExists);
 }
 
-
 $cookieName = "isLoggedIn";
 if (!isset($_COOKIE[$cookieName])) {
-   // $loggedInStatus = false;
    $loggedInStatus = false;
-} else {
+} 
+else {
    $loggedInStatus = filter_input(INPUT_COOKIE, 'isLoggedIn');
-   // $loggedInStatus = true;
 }
 
 $timeSelector = $_POST['timeSelector'];
@@ -51,14 +49,15 @@ $timeSelector = $_POST['timeSelector'];
          <div class="rightMenus">
             <ul>
                <?php
-               if ($loggedInStatus == true) {
-                  echo '<li><a style="text-decoration: none; color:#6a5acd" 
-                     href="friends.php" title="Friends"> Friends </a> </li>';
-                  echo '<li><a style="text-decoration: none; color:#6a5acd" 
-                     href="profile.php" title="Profile"> Profile </a> </li>';
-               } else {
-                  echo '<li><a style="text-decoration: none; color:#6a5acd" href="loginAndRegister.php" title="Login or Register"> Login or Register </a></li>';
-               }
+                  if ($loggedInStatus == true) {
+                     echo '<li><a style="text-decoration: none; color:#6a5acd" 
+                        href="friends.php" title="Friends"> Friends </a> </li>';
+                     echo '<li><a style="text-decoration: none; color:#6a5acd" 
+                        href="profile.php" title="Profile"> Profile </a> </li>';
+                  } 
+                  else {
+                     echo '<li><a style="text-decoration: none; color:#6a5acd" href="loginAndRegister.php" title="Login or Register"> Login or Register </a></li>';
+                  }
                ?>
             </ul>
          </div>
@@ -118,13 +117,13 @@ $timeSelector = $_POST['timeSelector'];
       <button id='restart_btn' onclick='reset()'> Restart </button>
 
       <footer>
-         <nav>
+         <nav>  
             <ul>
-               <li> 1 </li>
-               <li> 2 </li>
-               <li> 3 </li>
-               <li> 4 </li>
-               <li> 5 </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/contactUs.html" title="Contact Us"> Contact Us </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/cookieUsage.html" title="Cookie Usage"> Cookie Usage </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/ourLocation.html" title="Our Location"> Our Location </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/aboutUs.html" title="About Us"> About Us </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="index.php" title="TinyTypers"> ©TinyTypers </a> </li>
             </ul>
          </nav>
       </footer>
