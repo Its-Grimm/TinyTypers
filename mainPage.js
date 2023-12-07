@@ -22,7 +22,7 @@ let i = 0;
 let accuracy = 0;
 var graph = null;
 let errors = 0;
-let passedErrors = 0;
+let total_typed = 0;
 
 
 //Starts game
@@ -55,7 +55,7 @@ function reset() {
    i = 0;
    accuracy = 0;
    errors = 0;
-   passedErrors = 0;
+   total_typed = 0;
    words.innerText = 'Click on the textbox to start a game';
 }
 
@@ -96,11 +96,11 @@ function finishGame() {
    input_area.value = "";
 
    errors_text.innerText = total_errors + " errors";
-   if (charTyped === 0 && total_errors === 0){
+   if (total_typed === 0 && total_errors === 0){
       accuracy = 0;
    }
    else{
-      accuracy = ((charTyped - total_errors) / charTyped) * 100;
+      accuracy = ((total_typed - total_errors) / total_typed) * 100;
    }
 
    if (accuracy < 0) {
@@ -127,10 +127,12 @@ function processText() {
    words_array = words.querySelectorAll('span');
    errors = 0;
    charTyped++;
+   total_typed++;
    input_area.onkeydown = function () {
       var key = event.keyCode || event.charCode;
       if ((key === 8 || key === 46) && input.length > 0) {
          charTyped -= 2;
+         total_typed--;
       }
    }
 
@@ -148,8 +150,9 @@ function processText() {
          else {
             words_char.classList.add('incorrect_char');
             words_char.classList.remove('correct_char');
-            errors++;
-
+            if(index === input_array.length-1){
+               errors++;
+            }
             if (words_char.innerText === " ") {
                const charSpan = document.createElement('span');
                charSpan.innerText = char;
@@ -174,7 +177,7 @@ function processText() {
       }
    });
 
-   total_errors = errors + passedErrors;
+   total_errors = errors + total_errors;
 
    if (countWords >= 2) {
       shiftWords();
@@ -192,14 +195,10 @@ function shiftWords() {
 
    words_array = words.querySelectorAll('span');
    while (shifted !== " ") {
-      if (words_array[count].classList.contains('incorrect_char') || words_array[count].classList.contains('extra_char')) {
-         passedErrors++;
-      }
       shifted = words_array[count].innerText;
       words_array[count].remove();
       count++;
    }
-   total_errors = errors + passedErrors;
    addWord();
    input = input_area.value;
    input_array = input.split('');

@@ -16,7 +16,7 @@ if (!$db) {
 
 // If user is registering
 if (isset($_POST['registerButton'])) {
-   $regUserQuery = "INSERT INTO user VALUES (null, '$regUsername', '$regEmail', '$regPassword', '54321')";
+   $regUserQuery = "INSERT INTO user(ID, username, email, password, friend_code) VALUES (null, '$regUsername', '$regEmail', '$regPassword', '54321')";
    $userQueryResult = mysqli_query($db, $regUserQuery);
    
    if ($userQueryResult == false || $userQueryResult == null || $userQueryResult == "") {
