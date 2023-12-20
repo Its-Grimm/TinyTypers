@@ -8,54 +8,59 @@ $regEmail = filter_input(INPUT_POST, 'regEmail');
 $regPassword = filter_input(INPUT_POST, 'regPass');
 $regFName = filter_input(INPUT_POST, 'regFName');
 $regLName = filter_input(INPUT_POST, 'regLName');
+// Hashing password
+$hashedPassword = password_hash($regPassword, PASSWORD_DEFAULT);
 
 $db = mysqli_connect("69.172.204.200", "tp", "New_Web_2023!", "tp_Tiny_Typers");
 if (!$db) {
-   die("Cannot connect to database! Error: " . mysqli_connect_error());
+   // die("Cannot connect to database! Error: " . mysqli_connect_error());
+   echo '<script type="text/javascript">alert("Could not connect to the database, please try again later!")</script>';
+   exit();
 }
 
-// If user is registering and presses the register button
+// If user presses the register button
 if (isset($_POST['registerButton'])) {
-   $regUserQuery = "INSERT INTO user (ID, username, email, password, friend_code) VALUES (null, '$regUsername', '$regEmail', '$regPassword', '54321')";
+   // Generates random 5 digit friend code 
+   $randFriendCode = rand(1, 99999);
+
+   // Will be storing the ID(PK & Auto Increments), username, email, hashed password, and the randomized 5 digit friend code
+   $regUserQuery = "INSERT INTO user (ID, username, email, password, friend_code) VALUES (null, '$regUsername', '$regEmail', '$hashedPassword', '$randFriendCode')";
    $userQueryResult = mysqli_query($db, $regUserQuery);
    
-   if ($userQueryResult == false || $userQueryResult == null || $userQueryResult == "") {
-      die("User not added");
+   if ($userQueryResult == null || mysqli_num_rows($userQueryResult) == 0) {
+      echo '<script type="text/javascript">alert("User could not be added. Check your credentials and try again")</script>';
    }
    else{
       header("Location: loginAndRegister.php");
    }
 }
 
-// If user is logging in and presses the login button
+// If user presses the login button
 if (isset($_POST['loginButton'])) {
-   // Grabbing the password from the database thats associated with the username/email entered
+   // Grabbing the password from the database that is associated with the username or email entered
    $loginQuery = "SELECT password FROM user WHERE username = '$loginUsernameOrEmail' OR email = '$loginUsernameOrEmail'";
    $queryResult = mysqli_query($db, $loginQuery);
 
-   if ($queryResult == '' || $queryResult == null) {
-      die("Invalid Username, Email, or Password entered. Try again!");
+   if ($queryResult == null || mysqli_num_rows($queryResult) == 0) {
+      echo '<script type="text/javascript">alert("Invalid Username, Email, or Password entered. Try again!")</script>';
    }
-   
-   if ($queryResult == false){
-      die("No user under those credentials found. Please try again!");
-   }
-   
-   $correctRow = mysqli_fetch_assoc($queryResult);
-   $fetchedPassword = $correctRow["password"];
+   else{
+      $correctRow = mysqli_fetch_assoc($queryResult);
+      $fetchedPassword = $correctRow['password'];
 
-   // If the password entered in the textbox matches the one uploaded to the website
-   if ($loginPassword == $fetchedPassword){
-      $cookieName = "isLoggedIn";
-      $cookieValue = true;
-      setcookie($cookieName, $cookieValue, time() + (86400*30), "/");
-      header("Location: index.php");
+      // If the password entered in the textbox matches the hashed password stored in the database
+      if (password_verify($loginPassword, $fetchedPassword)){
+         $cookieName = "isLoggedIn";
+         $cookieValue = true;
+         setcookie($cookieName, $cookieValue, time() + (86400*30), "/");
+         header("Location: tinyTypersIndex.php");
+      }
    }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="eng">
 
 <head>
    <title> TinyTypers Login/Register </title>
@@ -72,7 +77,7 @@ if (isset($_POST['loginButton'])) {
 
       <header>
          <div class="title"> 
-            <label> <a style="text-decoration: none; color:#6a5acd"  href="index.php" title="Home"> TinyTypers </a> </label>
+            <label> <a style="text-decoration: none; color:#6a5acd"  href="tinyTypersIndex.php" title="Home"> TinyTypers </a> </label>
          </div>
       </header>
 
@@ -83,11 +88,12 @@ if (isset($_POST['loginButton'])) {
             <label for="main" class="register"> REGISTER </label>
          </div>
 
-         <form action="" method="POST" class="loginForm" name="loginForm">
+         <!-- LOGGING IN -->
 
+         <form action="" method="POST" class="loginForm" name="loginForm">
             <ul>
                <li class="loginUser"> Username or Email <br>
-                  <input type="text" class="loginUserInp" name="loginUserOrEmail" required>
+                  <input type="text" id="loginUserInp" class="loginUserInp" name="loginUserOrEmail" required>
                </li>
 
                <li class="loginPass"> Password <br>
@@ -100,6 +106,8 @@ if (isset($_POST['loginButton'])) {
             </ul>
          </form>
 
+         <!-- REGISTERING -->
+
          <form action="" method="POST" class="registerForm" name="registerForm">
             <ul class="mainInfo">
                <li class="regUser"> Username <br>
@@ -107,7 +115,7 @@ if (isset($_POST['loginButton'])) {
                </li>
 
                <li class="regEmail"> Email <br>
-                  <input type="text" class="regEmailInp" name="regEmail" required>
+                  <input type="email" class="regEmailInp" name="regEmail" required>
                </li>
 
                <li class="regPass"> Password <br>
@@ -128,8 +136,8 @@ if (isset($_POST['loginButton'])) {
                   <input type="submit" class="regButton" value="Register" name="registerButton">
                </li>
             </ul>
-         
          </form>
+
       </div>
 
       <!-- FOOTER -->
@@ -139,9 +147,9 @@ if (isset($_POST['loginButton'])) {
             <ul>
                <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/contactUs.html" title="Contact Us"> Contact Us </a> </li>
                <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/cookieUsage.html" title="Cookie Usage"> Cookie Usage </a> </li>
-               <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/ourLocation.html" title="Our Location"> Our Location </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="index.html" title="Home"> Back To Home </a> </li>
                <li> <a style="text-decoration: none; color:#6a5acd"  href="extraSites/aboutUs.html" title="About Us"> About Us </a> </li>
-               <li> <a style="text-decoration: none; color:#6a5acd"  href="index.php" title="TinyTypers"> ©TinyTypers </a> </li>
+               <li> <a style="text-decoration: none; color:#6a5acd"  href="tinyTypersIndex.php" title="TinyTypers"> ©TinyTypers </a> </li>
             </ul>
          </nav>
       </footer>
