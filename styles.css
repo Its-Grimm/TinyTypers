@@ -1,6 +1,6 @@
 body {
    left: 0px;
-   background: #111111;
+   background-color: #111111;
    color: #6a5acd;
    font-family: "Roboto", Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -25,13 +25,11 @@ header {
    left: 50%;
    font-size: 25px;
 }
-
 .leftMenus ul {
    position: fixed;
    list-style: none;
    left: 30px;
 }
-
 .leftMenus li {
    margin: 10px;
    display: inline-block;
@@ -41,13 +39,11 @@ header {
    right: 50%;
    font-size: 25px;
 }
-
 .rightMenus ul {
    position: fixed;
    list-style: none;
    right: 67px;
 }
-
 .rightMenus li {
    margin: 10px;
    display: inline-block;
@@ -85,13 +81,11 @@ nav {
    padding-top: 10px;
    padding-bottom: 15px;
 }
-
 nav ul {
    list-style: none;
    padding: 0px;
    margin: 0px;
 }
-
 nav li {
    margin-left: 85px;
    display: inline-block;
@@ -131,13 +125,11 @@ nav li {
    transform: translateX(-50%);
    margin: auto;
 }
-
 .underBoxSettings ul {
    list-style: none;
    margin-top: 25px;
    margin-left: -40px;
 }
-
 .underBoxSettings li {
    height: 75px;
    font-size: 30px;
@@ -149,7 +141,6 @@ nav li {
    margin-left: 10px;
    margin-right: 10px;
 }
-
 .typeBox input {
    padding: 0 10px;
    width: 500px;
@@ -176,7 +167,6 @@ nav li {
 .incorrect_char, .extra_char { 
    color: red; 
 } 
-
 .correct_char { 
    color: darkgreen; 
 }
@@ -194,13 +184,11 @@ nav li {
    transform: translateX(-50%);
    margin: auto;
 }
-
 .belowBox ul {
    list-style: none;
    margin-top: 25px;
    margin-left: -40px;
 }
-
 .belowBox li {
    height: 75px;
    font-size: 30px;
@@ -241,7 +229,6 @@ footer {
    background-color: #191919;
    text-align: center;
 }
-
 footer ul {
    padding: 0;
    margin: 0;
@@ -249,7 +236,6 @@ footer ul {
    display: flex;
    justify-content: center;
 }
-
 footer li {
    margin: 5px 75px;
    height: 10px;
